@@ -4,7 +4,12 @@
 ## This scaffolding model makes your app work on Google App Engine too
 ## File is released under public domain and you can use without limitations
 #########################################################################
+<<<<<<< HEAD
 #hey dj;xfhvgadP[SBFGDOQSGIOLDMSFGHSZXN CBSDRF
+=======
+#hey 
+#great job jordan!
+>>>>>>> 3f5d463e705b7f89dbb6f42461942b3ce9e7496a
 ## if SSL/HTTPS is properly configured and you want all HTTP requests to
 ## be redirected to HTTPS, uncomment the line below:
 # request.requires_https()
