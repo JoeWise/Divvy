@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-#########################################################################
-## This scaffolding model makes your app work on Google App Engine too
-## File is released under public domain and you can use without limitations
-#########################################################################
-#hey 
-#great job jordan!
 ## if SSL/HTTPS is properly configured and you want all HTTP requests to
 ## be redirected to HTTPS, uncomment the line below:
 # request.requires_https()
@@ -32,14 +26,6 @@ response.generic_patterns = ['*'] if request.is_local else []
 # response.optimize_js = 'concat,minify,inline'
 ## (optional) static assets folder versioning
 # response.static_version = '0.0.0'
-#########################################################################
-## Here is sample code if you need for
-## - email capabilities
-## - authentication (registration, login, logout, ... )
-## - authorization (role based authorization)
-## - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
-## - old style crud actions
-## (more options discussed in gluon/tools.py)
 #########################################################################
 
 from gluon.tools import Auth, Service, PluginManager
@@ -68,21 +54,47 @@ from gluon.contrib.login_methods.janrain_account import use_janrain
 use_janrain(auth, filename='private/janrain.key')
 
 #########################################################################
-## Define your tables below (or better in another model file) for example
-##
-## >>> db.define_table('mytable',Field('myfield','string'))
-##
-## Fields can be 'string','text','password','integer','double','boolean'
-##       'date','time','datetime','blob','upload', 'reference TABLENAME'
-## There is an implicit 'id integer autoincrement' field
-## Consult manual for more options, validators, etc.
-##
-## More API examples for controllers:
-##
-## >>> db.mytable.insert(myfield='value')
-## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
-## >>> for row in rows: print row.id, row.myfield
-#########################################################################
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+#########################################################################
+# PERSON TABLE
+db.define_table(
+ 'person',
+ Field('first_name', default=''),
+ Field('last_name', default=''),
+ Field('email', unique=True),
+ Field('password', 'password', length=512, readable=False, label='Password'),
+ Field('registration_key', length=512, writable=False, readable=False, default=''),
+ Field('reset_password_key', length=512, writable=False, readable=False, default=''),
+ Field('registration_id', length=512, writable=False, readable=False, default=''),
+ format = '%(first_name)s %(last_name)s',
+ singular = 'Person',
+ plural = 'Persons',
+)
+
+# Customer table requires a name and valid email (if provided)
+db.person.first_name.requires = IS_NOT_EMPTY()
+db.person.last_name.requires = IS_NOT_EMPTY()
+db.person.email.requires = [IS_EMPTY_OR(IS_EMAIL()), IS_NOT_IN_DB(db, 'person.email')]
+
+# Settings for authentication using customer database
+custom_auth_table = db['person']
+
+custom_auth_table.first_name.requires = IS_NOT_EMPTY(error_message = auth.messages.is_empty)
+custom_auth_table.last_name.requires = IS_NOT_EMPTY(error_message = auth.messages.is_empty)
+custom_auth_table.email.requires = IS_NOT_IN_DB(db, custom_auth_table.email)
+custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
+custom_auth_table.email.requires = [ IS_EMAIL(error_message = auth.messages.invalid_email), IS_NOT_IN_DB(db, custom_auth_table.email)]
+
+auth.settings.table_user = custom_auth_table
+auth.settings.table_user_name = 'person'
+auth.settings.table_group_name = 'person'
+auth.settings.table_membership_name = 'person_membership'
+auth.settings.table_permission_name = 'person_permission'
+auth.settings.table_event_name = 'person_event'
+auth.settings.login_userfield = 'email'
+auth.define_tables(username=False)
+
+#########################################################################
