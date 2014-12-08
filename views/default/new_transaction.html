@@ -1,17 +1,26 @@
+{{extend 'layout.html'}}
 <h1>This is the new_transaction.html template</h1>
 
 <div class="well">
     {{items = ['d', 'e', 'f']}}
     <ul>{{for qqq in items:}}<li>{{=qqq}}</li>{{pass}}</ul>
 
-    <ul>{{for name in names:}}<li>{{=name}}</li>{{pass}}</ul>
-
-    <ul>
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
-    </ul>
+		<form id="form_940982" class="appnitro"  method="post" action="">
+					<div class="form_description">
+			<h2>New Transaction</h2>
+			<p>Fill this out to create a new transaction</p>
+		</div>
+		<ul >
+            <li id="li_1" >
+            <label class="description" for="for">For </label>
+		<div>
+			<input id="1" name="for" class="element text medium" type="text"  value=""/> 
+		</div>
+		</li>		<li id="li_2" >
+		<label class="description" for="amount">Amount </label>
+		<div>
+			<input id="2" name="amount" class="element text medium" type="text"  value=""/> 
+		</div> 
+		</li>
 
 </div>
-
-{{=BEAUTIFY(response._vars)}}

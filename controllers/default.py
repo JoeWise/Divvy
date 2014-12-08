@@ -20,10 +20,13 @@ def index():
     response.flash = T("Welcome to web2py!")
     return dict(message=T('Hello World'))
 
+@auth.requires_login()
 def new_transaction():
     names = []
+    """
     for row in db(db.person).select():
          names.append(row.email)
+    """
     return dict(names=names)
 
 def user():
@@ -63,7 +66,7 @@ def call():
     return service()
 
 
-@auth.requires_login() 
+@auth.requires_login()
 def api():
     """
     this is example of API with access control
