@@ -1,11 +1,20 @@
-db = DAL('sqlite://storage.sqlite')
-
 #########################################################################
-# AUTH TABLE
+# HOUSE TABLE
 #########################################################################
-auth = Auth(db)
-auth.define_tables(username=False,signature=False)
+db.define_table(
+ 'house',
+ Field('Name', 'string', default=''),
+ Field('Address', 'string', default=''),
+ Field('City', 'string', default=''),
+ Field('State', 'string', default=''),
+ Field('ZIP', 'integer', default='0'),
+ Field('Members', db.auth_user),
+ format = '%(name)s House',
+ singular = 'House',
+ plural = 'Houses',
+)
 
+db.house.name.requires = db.house.Members.requires = IS_NOT_EMPTY()
 
 #########################################################################
 # TRANSACTION TABLE
