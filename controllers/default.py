@@ -20,6 +20,11 @@ def index():
     response.flash = T("Welcome to web2py!")
     return dict(message=T('Hello World'))
 
+def new_transaction():
+    names = []
+    for row in db(db.person).select():
+         names.append(row.email)
+    return dict(names=names)
 
 def user():
     """

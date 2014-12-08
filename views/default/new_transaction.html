@@ -1,0 +1,17 @@
+<h1>This is the new_transaction.html template</h1>
+
+<div class="well">
+    {{items = ['d', 'e', 'f']}}
+    <ul>{{for qqq in items:}}<li>{{=qqq}}</li>{{pass}}</ul>
+
+    <ul>{{for name in names:}}<li>{{=name}}</li>{{pass}}</ul>
+
+    <ul>
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+    </ul>
+
+</div>
+
+{{=BEAUTIFY(response._vars)}}
