@@ -1,26 +1,40 @@
 {{extend 'layout.html'}}
-<h1>This is the new_transaction.html template</h1>
+
+
+<script>
+function getTransaction() {
+  //get input values
+    var item = document.getElementById("for")
+    var total = document.getElementById("total")
+    {{for name in names:}}
+    var user = document.getElementById({{=name}})
+
+}
+</script>
+
+<h1>New Transaction</h1>
 
 <div class="well">
-    {{items = ['d', 'e', 'f']}}
-    <ul>{{for qqq in items:}}<li>{{=qqq}}</li>{{pass}}</ul>
 
-		<form id="form_940982" class="appnitro"  method="post" action="">
-					<div class="form_description">
-			<h2>New Transaction</h2>
-			<p>Fill this out to create a new transaction</p>
-		</div>
-		<ul >
-            <li id="li_1" >
-            <label class="description" for="for">For </label>
+<table>
+	<form id="newitemform">
+        <label class="description" for="for">You bought </label>
 		<div>
-			<input id="1" name="for" class="element text medium" type="text"  value=""/> 
+			<input id="for" name="for" class="element text medium" type="text"  value=""/> 
 		</div>
-		</li>		<li id="li_2" >
-		<label class="description" for="amount">Amount </label>
-		<div>
-			<input id="2" name="amount" class="element text medium" type="text"  value=""/> 
-		</div> 
-		</li>
 
+        <label class="description" for="total">Which cost </label>
+		<div>
+			<input id="total" name="for" class="element text medium" type="price"  value="0"/> 
+		</div>
+
+         {{for name in names:}}
+        <label class="description" for={{=name}}>{{=name}} owes you</label>
+		<div>
+			<input id="{{=name}}" name="{{=name}}" class="element text medium" type="price"  value="0"/> 
+		</div>
+            {{pass}}
+        <tr><td colspan="4"><input type="button" value="Submit" id="additem" onclick="getTransaction()"/></td></tr>
+</form>
+</table>
 </div>

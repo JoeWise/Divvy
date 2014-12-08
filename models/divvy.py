@@ -14,7 +14,7 @@ db.define_table(
  plural = 'Houses',
 )
 
-db.house.name.requires = db.house.Members.requires = IS_NOT_EMPTY()
+db.house.Name.requires = db.house.Members.requires = IS_NOT_EMPTY()
 
 #########################################################################
 # TRANSACTION TABLE

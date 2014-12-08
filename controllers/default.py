@@ -23,10 +23,11 @@ def index():
 @auth.requires_login()
 def new_transaction():
     names = []
-    """
-    for row in db(db.person).select():
-         names.append(row.email)
-    """
+
+    for row in db(db.auth_user).select():
+        if row.email != auth.user.email:
+            names.append(row.email)
+
     return dict(names=names)
 
 def user():
