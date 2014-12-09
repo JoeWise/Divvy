@@ -1,23 +1,11 @@
 {{extend 'layout.html'}}
 
-
-<script>
-function getTransaction() {
-  //get input values
-    var item = document.getElementById("for")
-    var total = document.getElementById("total")
-    {{for name in names:}}
-    var user = document.getElementById({{=name}})
-
-}
-</script>
-
 <h1>New Transaction</h1>
 
 <div class="well">
 
 <table>
-	<form id="newitemform">
+    <form id="newitemform" action="/Divvy/default/process_transaction" method="post">
         <label class="description" for="for">You bought </label>
 		<div>
 			<input id="for" name="for" class="element text medium" type="text"  value=""/> 
@@ -25,16 +13,16 @@ function getTransaction() {
 
         <label class="description" for="total">Which cost </label>
 		<div>
-			<input id="total" name="for" class="element text medium" type="price"  value="0"/> 
+			<input id="total" name="total" class="element text medium" type="price"  value="0"/> 
 		</div>
 
          {{for name in names:}}
         <label class="description" for={{=name}}>{{=name}} owes you</label>
 		<div>
-			<input id="{{=name}}" name="{{=name}}" class="element text medium" type="price"  value="0"/> 
+			<input id="owes_{{=name}}" name="owes_{{=name}}" class="element text medium" type="price"  value="0"/> 
 		</div>
             {{pass}}
-        <tr><td colspan="4"><input type="button" value="Submit" id="additem" onclick="getTransaction()"/></td></tr>
+        <tr><td colspan="4"><input type="submit" value="Submit" id="additem"/></td></tr>
 </form>
 </table>
 </div>

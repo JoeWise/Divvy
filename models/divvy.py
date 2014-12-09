@@ -8,7 +8,7 @@ db.define_table(
  Field('City', 'string', default=''),
  Field('State', 'string', default=''),
  Field('ZIP', 'integer', default='0'),
- Field('Members', db.auth_user),
+ Field('Members', 'list:reference auth_user'),
  format = '%(name)s House',
  singular = 'House',
  plural = 'Houses',
@@ -21,7 +21,7 @@ db.house.Name.requires = db.house.Members.requires = IS_NOT_EMPTY()
 #########################################################################
 db.define_table(
  'transaction_table',
- Field('author', db.auth_user),
+ Field('author', 'reference auth_user'),
  Field('total', 'double', default='0.0'),
 )
 
@@ -33,10 +33,10 @@ db.transaction_table.author.requires = IS_NOT_EMPTY()
 #########################################################################
 db.define_table(
  'payment',
- Field('transaction_n', db.transaction_table),
- Field('payer', db.auth_user),
+ Field('transaction_n', 'reference  transaction_table'),
+ Field('payer', 'reference  auth_user'),
  Field('amount', 'double', default='0.0'),
- Field('receiver', db.auth_user),
+ Field('receiver', 'reference  auth_user'),
 )
 
 db.payment.transaction_n.requires = db.payment.payer.requires = IS_NOT_EMPTY()

@@ -30,6 +30,17 @@ def new_transaction():
 
     return dict(names=names)
 
+@auth.requires_login()
+def process_transaction():
+    #create a new record in the transaction table
+    db.transaction_table.insert(author=auth.user.id, total=request.post_vars["total"])
+
+    #for each user, create a new payment record in the payment table
+    for row in db(db.auth_user).select():
+        if row.email != auth.user.email:
+            request.post_vars["cost_"+row.email]
+    return dict()
+
 def user():
     """
     exposes:
