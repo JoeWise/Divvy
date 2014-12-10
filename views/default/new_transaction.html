@@ -17,7 +17,7 @@
 		</div>
 
          {{for name in names:}}
-        <label class="description" for={{=name}}>{{=name}} owes you</label>
+        <label class="description" for="owes_{{=name}}">{{=name}} owes you</label>
 		<div>
 			<input id="owes_{{=name}}" name="owes_{{=name}}" class="element text medium" type="price"  value="0"/> 
 		</div>

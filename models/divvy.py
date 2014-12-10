@@ -25,7 +25,7 @@ db.define_table(
  Field('total', 'double', default='0.0'),
 )
 
-db.transaction_table.author.requires = IS_NOT_EMPTY()
+#db.transaction_table.author.requires = IS_NOT_EMPTY()
 
 
 #########################################################################

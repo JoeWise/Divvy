@@ -33,12 +33,16 @@ def new_transaction():
 @auth.requires_login()
 def process_transaction():
     #create a new record in the transaction table
-    db.transaction_table.insert(author=auth.user.id, total=request.post_vars["total"])
+    userid = auth.user.id
+    transactionid = db.transaction_table.insert(author=userid, total=request.post_vars["total"])
+    #from hw3 hints: orderid = db.cust_order.insert(customer=userid, co_date=datime,amount=amount)
 
     #for each user, create a new payment record in the payment table
     for row in db(db.auth_user).select():
-        if row.email != auth.user.email:
-            request.post_vars["cost_"+row.email]
+        if (row.email != auth.user.email and request.post_vars["owes_"+row.email] != 0):
+            print(request.post_vars["owes_"+row.email])
+            db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
+
     return dict()
 
 def user():
