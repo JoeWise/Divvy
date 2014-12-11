@@ -48,7 +48,7 @@ def process_transaction():
     for row in db(db.auth_user).select():
         if (row.email != auth.user.email and request.post_vars["owes_"+row.email] != 0):
             print(request.post_vars["owes_"+row.email])
-            #db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
+            db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
 
     return redirect(URL('index'))
 
@@ -60,7 +60,13 @@ def details_transaction():
     payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
     # Return transaction ID
     trans_id = request.args(0,cast=int)
-    return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id)
+    # Boolean to know if a payer or receiver viewing
+    is_payer = True
+    id_payer = 0
+    if this_transaction.author == auth.user.id:
+        is_payer = False
+        id_payer = auth.user.id
+    return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id, is_payer=is_payer, id_payer=id_payer)
 
 def user():
     """

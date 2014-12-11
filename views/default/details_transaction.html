@@ -28,6 +28,9 @@
     .val-negative{
         background-color:#FB8181;
     }
+    .val-neutral{
+        background-color:#98d5ff;
+    }
     .val-total, .val-single{
         float: right;
     }
@@ -45,23 +48,45 @@
     }
 </style>
 <h1>
-    {{ = trans.title }}
+    {{ = trans.title }}  (${{ = trans.total}})
 </h1>
 <h3>
     by {{ = db.transaction_table.author.represent(trans.author) }}
 </h3>
 </br>
 {{ remaining = trans.total }}
+
+
+
+
 {{ if rows: }}
 <div id="accordion">
     {{ for row in rows: }}
-    <h3 class="person">{{ =row.payer }}<span class="val-total val-positive">${{ =row.amount }}</span></h3>
+    <h3 class="person">
+        {{ if is_payer: }}
+            {{ if row.payer == id_payer: }}
+                You 
+                <span class="val-total val-negative">
+            {{ else: }}
+                {{ =row.payer }}
+                <span class="val-total val-neutral">
+            {{ pass }}
+        {{ else: }}
+            {{ =row.payer }}
+            <span class="val-total val-positive">
+        {{ pass }}
+        ${{ =row.amount }}</span></h3>
     <h3></h3>
     {{ remaining = remaining - row.amount }}
     {{ pass }}
+    {{ if is_payer: }}
+    <h3 class="person">{{ =db.transaction_table.author.represent(trans.author) }}<span class="val-total val-neutral">${{ = remaining }}</span></h3>
+    {{ else: }}
     <h3 class="person">You <span class="val-total val-negative">${{ = remaining }}</span></h3>
+    {{ pass }}
 </div>
 {{ pass }}
 </br>
 <h3>Options</h3>
-{{=A('Pay your Share', _class='btn', _href=URL('delete', args=request.args))}}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
+{{ if is_payer: }}
+{{=A('Pay your Share', _class='btn', _href=URL('delete', args=request.args))}}{{ pass }}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
