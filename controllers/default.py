@@ -17,8 +17,11 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("Welcome to web2py!")
-    return dict(message=T('Hello World'))
+    #response.flash = T("Welcome to web2py!")
+    #return dict(message=T('Hello World'))
+    #
+    # REDIRECT TO HOME (CHANGE IN FUTURE?)
+    return redirect(URL('home'))
 
 @auth.requires_login()
 def home():
@@ -45,9 +48,19 @@ def process_transaction():
     for row in db(db.auth_user).select():
         if (row.email != auth.user.email and request.post_vars["owes_"+row.email] != 0):
             print(request.post_vars["owes_"+row.email])
-            db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
+            #db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
 
     return redirect(URL('index'))
+
+@auth.requires_login()
+def details_transaction():
+    # Fetch transaction entry
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    # Fetch payments related to the transaction
+    payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
+    # Return transaction ID
+    trans_id = request.args(0,cast=int)
+    return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id)
 
 def user():
     """

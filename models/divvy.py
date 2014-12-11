@@ -23,6 +23,7 @@ db.define_table(
  'transaction_table',
  Field('author', 'reference auth_user'),
  Field('total', 'double', default='0.0'),
+ Field('title', 'string', default='New Transaction'),
 )
 
 #db.transaction_table.author.requires = IS_NOT_EMPTY()

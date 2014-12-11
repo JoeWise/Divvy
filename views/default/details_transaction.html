@@ -1,0 +1,67 @@
+{{extend 'layout.html'}}
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+        $( "#accordion" ).accordion({
+            collapsible: true,
+            active: false,
+            animate: 1000,
+            animate: "easeOutQuart",
+            heightStyle: "content"
+        });
+    });
+</script>
+<style>
+    #accordion{
+        max-width: 400px;
+    }
+    #accordion h3{
+        background-color: #EEE;
+        margin: 5px 0px;
+        padding-left: 10px;
+        border-radius: 8px;
+    }
+    .val-positive{
+        background-color:#83FAAD;
+    }
+    .val-negative{
+        background-color:#FB8181;
+    }
+    .val-total, .val-single{
+        float: right;
+    }
+    .val-total{
+        border-radius: 8px;
+        padding: 0px 5px;
+    }
+    .line-item{
+        margin-left: 5px;
+        padding: 2px 5px;
+    }
+    a{
+        color: #111;
+        text-decoration: none;
+    }
+</style>
+<h1>
+    {{ = trans.title }}
+</h1>
+<h3>
+    by {{ = db.transaction_table.author.represent(trans.author) }}
+</h3>
+</br>
+{{ remaining = trans.total }}
+{{ if rows: }}
+<div id="accordion">
+    {{ for row in rows: }}
+    <h3 class="person">{{ =row.payer }}<span class="val-total val-positive">${{ =row.amount }}</span></h3>
+    <h3></h3>
+    {{ remaining = remaining - row.amount }}
+    {{ pass }}
+    <h3 class="person">You <span class="val-total val-negative">${{ = remaining }}</span></h3>
+</div>
+{{ pass }}
+</br>
+<h3>Options</h3>
+{{=A('Pay your Share', _class='btn', _href=URL('delete', args=request.args))}}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
