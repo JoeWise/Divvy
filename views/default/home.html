@@ -14,35 +14,59 @@
 </script>
 <style>
     #accordion{
-        max-width: 300px;
+        max-width: 400px;
+    }
+    #accordion h3{
+        background-color: #EEE;
+        margin: 5px 0px;
+        padding-left: 10px;
+        border-radius: 8px;
+    }
+    .val-positive{
+        background-color:#83FAAD;
+    }
+    .val-negative{
+        background-color:#FB8181;
     }
     .val-total, .val-single{
         float: right;
     }
+    .val-total{
+        border-radius: 8px;
+        padding: 0px 5px;
+    }
+    .line-item{
+        margin-left: 5px;
+        padding: 2px 5px;
+    }
+    a{
+        color: #111;
+        text-decoration: none;
+    }
 </style>
 <div id="accordion">
-    <h3 class="person">Joe<span class="val-total">$</span></h3>
+    <h3 class="person">Joe<span class="val-total val-positive">$1,000</span></h3>
         <div>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
         </div>
-    <h3 class="person">Jordan<span class="val-total">$</span></h3>
+    <h3 class="person">Jordan<span class="val-total val-negative">$54</span></h3>
         <div>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
         </div>
-    <h3 class="person">Paul<span class="val-total">$</span></h3>
+    <h3 class="person">Paul<span class="val-total val-negative">$2</span></h3>
         <div>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
         </div>
-    <h3 class="person">Mitch<span class="val-total">$</span></h3>
+    <h3 class="person">Mitch<span class="val-total val-positive">$34</span></h3>
         <div>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
-            <p>Money<span class="val-single">$</span></p>
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-positive"><span>Item</span><span class="val-single">$</span></div></a><br />
+            <a href=""><div class="line-item val-negative"><span>Item</span><span class="val-single">$</span></div></a><br />
         </div>
 </div>
