@@ -42,10 +42,14 @@
 <h1>
     {{ = trans.title }}  (${{ = trans.total}})
 </h1>
-<h3>
+<h4>
     by {{ = db.transaction_table.author.represent(trans.author) }}
-</h3>
+</h4>
 </br>
+
+<h3>
+    Transaction Details
+</h3>
 {{ remaining = trans.total }}
 {{ id_payment = 0 }}
 {{ show_pay_button = False }}
