@@ -1,0 +1,48 @@
+{{extend 'layout.html'}}
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+        $( "#accordion" ).accordion({
+            collapsible: true,
+            active: false,
+            animate: 1000,
+            animate: "easeOutQuart",
+            heightStyle: "content"
+        });
+    });
+</script>
+<style>
+    #accordion{
+        max-width: 300px;
+    }
+    .val-total, .val-single{
+        float: right;
+    }
+</style>
+<div id="accordion">
+    <h3 class="person">Joe<span class="val-total">$</span></h3>
+        <div>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+        </div>
+    <h3 class="person">Jordan<span class="val-total">$</span></h3>
+        <div>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+        </div>
+    <h3 class="person">Paul<span class="val-total">$</span></h3>
+        <div>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+        </div>
+    <h3 class="person">Mitch<span class="val-total">$</span></h3>
+        <div>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+            <p>Money<span class="val-single">$</span></p>
+        </div>
+</div>

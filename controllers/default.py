@@ -21,6 +21,10 @@ def index():
     return dict(message=T('Hello World'))
 
 @auth.requires_login()
+def home():
+    return dict(message=T('testing'))
+
+@auth.requires_login()
 def new_transaction():
     names = []
 
