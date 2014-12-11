@@ -37,6 +37,7 @@ db.define_table(
  Field('payer', 'reference  auth_user'),
  Field('amount', 'double', default='0.0'),
  Field('receiver', 'reference  auth_user'),
+ Field('state', 'string', default='null'),
 )
 
 db.payment.transaction_n.requires = db.payment.payer.requires = IS_NOT_EMPTY()
