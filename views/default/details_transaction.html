@@ -1,17 +1,6 @@
 {{extend 'layout.html'}}
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script>
-    $(document).ready(function(){
-        $( "#accordion" ).accordion({
-            collapsible: true,
-            active: false,
-            animate: 1000,
-            animate: "easeOutQuart",
-            heightStyle: "content"
-        });
-    });
-</script>
 <style>
     #accordion{
         max-width: 500px;
@@ -58,10 +47,11 @@
 </h3>
 </br>
 {{ remaining = trans.total }}
-
-
-
-
+{{ id_payment = 0 }}
+{{ show_pay_button = False }}
+{{ if is_payer: }}
+    {{ show_pay_button = True }}
+{{ pass }}
 {{ if rows: }}
 <div id="accordion">
     {{ for row in rows: }}
@@ -69,17 +59,19 @@
         {{ if is_payer: }}
             {{ if row.payer == id_payer: }}
                 You 
+                {{ id_payment = row.id }}
                 {{ if row.state == "paid": }}
+                    {{ show_pay_button = False }}
                     <span class="val-total val-paid">
                 {{ else: }}
                     <span class="val-total val-negative">
                 {{ pass }}
             {{ else: }}
-                {{ =row.payer }}
+                {{ =db.payment.payer.represent(row.payer) }}
                 <span class="val-total val-neutral">
             {{ pass }}
         {{ else: }}
-            {{ =row.payer }}
+            {{ =db.payment.payer.represent(row.payer) }}
             {{ if row.state == "paid": }}
                 <span class="val-total val-paid">
             {{ else: }}
@@ -102,5 +94,5 @@
 {{ pass }}
 </br>
 <h3>Options</h3>
-{{ if is_payer: }}
-{{=A('Pay your Share', _class='btn', _href=URL('delete', args=request.args))}}{{ pass }}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
+{{ if show_pay_button: }}
+{{=A('Pay your Share', _class='btn', _href=URL('pay_transaction', args=id_payment))}}{{ pass }}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
