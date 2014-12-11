@@ -47,7 +47,7 @@ def process_transaction():
             print(request.post_vars["owes_"+row.email])
             db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
 
-    return dict()
+    return redirect(URL('index'))
 
 def user():
     """
