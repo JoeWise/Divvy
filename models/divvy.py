@@ -35,9 +35,9 @@ db.define_table(
 db.define_table(
  'payment',
  Field('transaction_n', 'reference  transaction_table'),
- Field('payer', 'reference  auth_user'),
+ Field('payer', 'reference auth_user'),
  Field('amount', 'double', default='0.0'),
- Field('receiver', 'reference  auth_user'),
+ Field('receiver', 'reference auth_user'),
  Field('state', 'string', default='null'),
 )
 
