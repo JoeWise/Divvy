@@ -68,6 +68,11 @@ def details_transaction():
         id_payer = auth.user.id
     return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id, is_payer=is_payer, id_payer=id_payer)
 
+@auth.requires_login()
+def mark_as_paid():
+    db.payment[request.args(0,cast=int)] = dict(state="paid")
+    return redirect(URL('index'))
+
 def user():
     """
     exposes:

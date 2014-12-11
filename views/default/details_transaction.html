@@ -14,7 +14,7 @@
 </script>
 <style>
     #accordion{
-        max-width: 400px;
+        max-width: 500px;
     }
     #accordion h3{
         background-color: #EEE;
@@ -30,6 +30,9 @@
     }
     .val-neutral{
         background-color:#98d5ff;
+    }
+    .val-paid{
+        background-color:#808080;
     }
     .val-total, .val-single{
         float: right;
@@ -66,16 +69,27 @@
         {{ if is_payer: }}
             {{ if row.payer == id_payer: }}
                 You 
-                <span class="val-total val-negative">
+                {{ if row.state == "paid": }}
+                    <span class="val-total val-paid">
+                {{ else: }}
+                    <span class="val-total val-negative">
+                {{ pass }}
             {{ else: }}
                 {{ =row.payer }}
                 <span class="val-total val-neutral">
             {{ pass }}
         {{ else: }}
             {{ =row.payer }}
-            <span class="val-total val-positive">
+            {{ if row.state == "paid": }}
+                <span class="val-total val-paid">
+            {{ else: }}
+                <span class="val-total val-positive">
+            {{ pass }}
         {{ pass }}
-        ${{ =row.amount }}</span></h3>
+        ${{ =row.amount }}</span> 
+                    {{ if (is_payer == False) & (row.state == "null"): }}
+                    {{=A('Mark as Paid', _class='btn', _href=URL('mark_as_paid', args=row.id))}}
+                    {{ pass }}</h3>
     <h3></h3>
     {{ remaining = remaining - row.amount }}
     {{ pass }}
