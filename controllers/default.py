@@ -17,11 +17,12 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    #response.flash = T("Welcome to web2py!")
+    response.flash = T("Welcome to Divvy!")
     #return dict(message=T('Hello World'))
     #
     # REDIRECT TO HOME (CHANGE IN FUTURE?)
-    return redirect(URL('home'))
+    #return redirect(URL('home'))
+    return dict(message=T('Welcome!!'))
 
 @auth.requires_login()
 def home():
