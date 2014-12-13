@@ -10,19 +10,7 @@
 #########################################################################
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Welcome to Divvy!")
-    #return dict(message=T('Hello World'))
-    #
-    # REDIRECT TO HOME (CHANGE IN FUTURE?)
-    #return redirect(URL('home'))
-    return dict(message=T('Welcome!!'))
+    return dict(message=T('Welcome!'))
 
 @auth.requires_login()
 def home():
@@ -65,10 +53,9 @@ def details_transaction():
     trans_id = request.args(0,cast=int)
     # Boolean to know if a payer or receiver viewing
     is_payer = True
-    id_payer = 0
+    id_payer = auth.user.id
     if this_transaction.author == auth.user.id:
         is_payer = False
-        id_payer = auth.user.id
     return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id, is_payer=is_payer, id_payer=id_payer)
 
 @auth.requires_login()
