@@ -10,19 +10,7 @@
 #########################################################################
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Welcome to Divvy!")
-    #return dict(message=T('Hello World'))
-    #
-    # REDIRECT TO HOME (CHANGE IN FUTURE?)
-    #return redirect(URL('home'))
-    return dict(message=T('Welcome!!'))
+    return dict(message=T('Welcome!'))
 
 @auth.requires_login()
 def home():
