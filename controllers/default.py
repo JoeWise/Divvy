@@ -63,10 +63,9 @@ def details_transaction():
     trans_id = request.args(0,cast=int)
     # Boolean to know if a payer or receiver viewing
     is_payer = True
-    id_payer = 0
+    id_payer = auth.user.id
     if this_transaction.author == auth.user.id:
         is_payer = False
-        id_payer = auth.user.id
     return dict(trans=this_transaction, rows=payment_rows, trans_id=trans_id, is_payer=is_payer, id_payer=id_payer)
 
 @auth.requires_login()
