@@ -26,7 +26,9 @@ def index():
 
 @auth.requires_login()
 def home():
-    return dict(message=T('testing'))
+    # Fetch lsit of members
+    members = db.house(request.args(0,cast=int))
+    return dict(members)
 
 @auth.requires_login()
 def new_transaction():
