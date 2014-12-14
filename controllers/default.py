@@ -39,7 +39,7 @@ def process_transaction():
             print(request.post_vars["owes_"+row.email])
             db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
 
-    return redirect(URL('index'))
+    return redirect(URL('home'))
 
 @auth.requires_login()
 def details_transaction():
