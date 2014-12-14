@@ -44,7 +44,7 @@ def process_transaction():
 @auth.requires_login()
 def details_transaction():
     # Fetch transaction entry
-    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('home'))
     # Fetch payments related to the transaction
     payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
     # Return transaction ID
@@ -63,14 +63,14 @@ def mark_as_paid():
 
 @auth.requires_login()
 def delete_transaction():
-    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('home'))
     payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
     return dict(trans=this_transaction, rows=payment_rows)
 
 @auth.requires_login()
 def delete_t_confirm():
     #this_page = db.page(request.args(0,cast=int)) or redirect(URL('index'))
-    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('home'))
     payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
     #db(db.page.id == this_page.id).delete()
     db(db.transaction_table.id == this_transaction.id).delete()
