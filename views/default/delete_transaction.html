@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+<h1>Are you sure you want to delete this transaction?</h1>
+<h3>
+    {{ = trans.title }}  (${{ = trans.total}}) with:
+</h3>
+<h4>
+    <ul>
+        {{ for row in rows: }}
+        <li>
+        {{ =db.payment.payer.represent(row.payer)}}
+        </li>
+        {{pass}}
+    </ul>
+    </br>
+</h4>
+
+{{=A('Yes', _class='btn', _href=URL('delete_t_confirm', args=request.args))}}   {{=A('No', _class='btn', _href=URL('details_transaction', args=request.args))}}

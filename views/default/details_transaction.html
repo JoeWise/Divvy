@@ -99,4 +99,8 @@
 </br>
 <h3>Options</h3>
 {{ if show_pay_button: }}
-{{=A('Pay your Share', _class='btn', _href=URL('pay_transaction', args=id_payment))}}{{ pass }}  {{=A('Back to Home', _class='btn', _href=URL('home'))}}
+{{=A('Pay your Share', _class='btn', _href=URL('pay_transaction', args=id_payment))}}{{ pass }}
+{{ if is_payer == False: }}
+{{=A('Delete', _class='btn', _href=URL('delete_transaction', args=trans.id))}}
+{{ pass }}
+{{=A('Back to Home', _class='btn', _href=URL('home'))}}

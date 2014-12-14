@@ -14,7 +14,6 @@ def index():
 
 @auth.requires_login()
 def home():
-
     return dict(message=T('test!!'))
 
 @auth.requires_login()
@@ -60,7 +59,24 @@ def details_transaction():
 @auth.requires_login()
 def mark_as_paid():
     db.payment[request.args(0,cast=int)] = dict(state="paid")
-    return redirect(URL('index'))
+    return redirect(URL('home'))
+
+@auth.requires_login()
+def delete_transaction():
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
+    return dict(trans=this_transaction, rows=payment_rows)
+
+@auth.requires_login()
+def delete_t_confirm():
+    #this_page = db.page(request.args(0,cast=int)) or redirect(URL('index'))
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('index'))
+    payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
+    #db(db.page.id == this_page.id).delete()
+    db(db.transaction_table.id == this_transaction.id).delete()
+    for row in payment_rows:
+        db(db.payment.id == row.id).delete()
+    return redirect(URL('home'))
 
 def user():
     """
