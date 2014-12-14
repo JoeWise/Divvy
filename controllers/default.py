@@ -18,26 +18,24 @@ def home():
 
 @auth.requires_login()
 def new_transaction():
-    names = []
+    users = {}
 
     for row in db(db.auth_user).select():
         if row.email != auth.user.email:
-            names.append(row.email)
-
-    return dict(names=names)
+            users[row.id]=row.first_name + ' ' + row.last_name
+    return dict(users=users)
 
 @auth.requires_login()
 def process_transaction():
     #create a new record in the transaction table
     userid = auth.user.id
-    transactionid = db.transaction_table.insert(author=userid, total=request.post_vars["total"])
-    #from hw3 hints: orderid = db.cust_order.insert(customer=userid, co_date=datime,amount=amount)
+    transactionid = db.transaction_table.insert(author=userid, total=request.post_vars["total"], title=request.post_vars["item"])
 
     #for each user, create a new payment record in the payment table
     for row in db(db.auth_user).select():
-        if (row.email != auth.user.email and request.post_vars["owes_"+row.email] != 0):
-            print(request.post_vars["owes_"+row.email])
-            db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+row.email], receiver=userid)
+        if (row.email != auth.user.email and request.post_vars["owes_"+str(row.id)] != 0):
+            print(request.post_vars["owes_"+ str(row.id)])
+            db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
 
     return redirect(URL('home'))
 

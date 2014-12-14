@@ -6,9 +6,9 @@
 
 <table>
     <form id="newitemform" action="/Divvy/default/process_transaction" method="post">
-        <label class="description" for="for">You bought </label>
+        <label class="description" for="item">You bought </label>
 		<div>
-			<input id="for" name="for" class="element text medium" type="text"  value=""/> 
+			<input id="item" name="item" class="element text medium" type="text"  value=""/> 
 		</div>
 
         <label class="description" for="total">Which cost </label>
@@ -16,12 +16,12 @@
 			<input id="total" name="total" class="element text medium" type="price"  value="0"/> 
 		</div>
 
-         {{for name in names:}}
-        <label class="description" for="owes_{{=name}}">{{=name}} owes you</label>
+         {{for key, value in users.iteritems():}}
+        <label class="description" for="owes_{{=key}}">{{=value}} owes you</label>
 		<div>
-			<input id="owes_{{=name}}" name="owes_{{=name}}" class="element text medium" type="price"  value="0"/> 
+			<input id="owes_{{=key}}" name="owes_{{=key}}" class="element text medium" type="price"  value="0"/> 
 		</div>
-            {{pass}}
+         {{pass}}
         <tr><td colspan="4"><input type="submit" value="Submit" id="additem"/></td></tr>
 </form>
 </table>
