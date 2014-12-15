@@ -65,7 +65,8 @@
         </div>
     {{ pass }}
     {{ for row in pay_rows: }}
-    <h3 class="person">{{=row.title}}<span class="val-total val-negative" id="click">${{=row.total}}0</span></h3>
+    {{ payment_in_t = db((db.payment.transaction_n == row.id)&(auth.user.id == db.payment.payer)).select().first() }}
+    <h3 class="person">{{=row.title}}<span class="val-total val-negative" id="click">${{=payment_in_t.amount}}0</span></h3>
         <div>
             {{=A('Details', _class='btn btn-default', _href=URL('details_transaction', args=row.id))}}
         </div>
