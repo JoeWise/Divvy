@@ -14,14 +14,15 @@ def index():
 
 @auth.requires_login()
 def home():
-    users = {}
-    totals = {}
-    
-    for row in db(db.auth_user).select():
-        if row.email != auth.user.email:
-            users[row.id]=row.first_name
-            
-    return dict(users=users)
+    queries=[]
+    query = db.transaction_table.id == -1
+    payment_rows = db(auth.user.id == db.payment.payer).select(orderby=~db.payment.transaction_n)
+    for row in payment_rows:
+        queries.append(db.transaction_table.id == row.transaction_n)
+    query = reduce(lambda a,b:(a|b),queries)
+    t_payer_rows = db(query).select(orderby=~db.transaction_table.id)
+    transaction_rows = db(auth.user.id == db.transaction_table.author).select(orderby=~db.transaction_table.id)
+    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows)
 
 @auth.requires_login()
 def new_transaction():
@@ -43,8 +44,7 @@ def process_transaction():
         if (row.email != auth.user.email and request.post_vars["owes_"+str(row.id)] != 0):
             print(request.post_vars["owes_"+ str(row.id)])
             db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
-
-    return redirect(URL('home'))
+    return redirect(URL('details_transaction/'+str(transactionid)))
 
 @auth.requires_login()
 def details_transaction():
@@ -74,10 +74,8 @@ def delete_transaction():
 
 @auth.requires_login()
 def delete_t_confirm():
-    #this_page = db.page(request.args(0,cast=int)) or redirect(URL('index'))
     this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('home'))
     payment_rows = db(request.args(0,cast=int) == db.payment.transaction_n).select(orderby=~db.payment.transaction_n)
-    #db(db.page.id == this_page.id).delete()
     db(db.transaction_table.id == this_transaction.id).delete()
     for row in payment_rows:
         db(db.payment.id == row.id).delete()
