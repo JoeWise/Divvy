@@ -26,6 +26,7 @@
 		</div>
          {{pass}}
         </br>
+        <input id="total" name="transaction_id" class="element text medium" type="hidden"  value="{{ =trans.id }}"/>
         If you confirm, note that any payments previously marked as paid in this transaction will be reset to unpaid.
         <tr><td colspan="4"><input type="submit" value="Confirm" id="additem"/>{{=A('Back to Transaction Details', _class='btn', _href=URL('details_transaction', args=trans.id))}}{{=A('Back to Home', _class='btn', _href=URL('home'))}}</td></tr>
 </form>

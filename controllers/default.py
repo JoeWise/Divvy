@@ -89,9 +89,7 @@ def edit_transaction():
 
 @auth.requires_login()
 def edit_confirm():
-    #############
-    TRANS_ID = 8
-    #############
+    TRANS_ID = request.post_vars["transaction_id"]
     userid = auth.user.id
     # Edit transaction record
     db.transaction_table[TRANS_ID] = dict(title=request.post_vars["item"])
