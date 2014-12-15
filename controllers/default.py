@@ -14,7 +14,14 @@ def index():
 
 @auth.requires_login()
 def home():
-    return dict(message=T('Name'))
+    users = {}
+    totals = {}
+    
+    for row in db(db.auth_user).select():
+        if row.email != auth.user.email:
+            users[row.id]=row.first_name
+            
+    return dict(users=users)
 
 @auth.requires_login()
 def new_transaction():

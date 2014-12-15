@@ -51,13 +51,17 @@
     
 </style>
 <h2>
-    House {{message}}
+    Transaction Summary
 </h2>
+
 <div id="accordion">
-    <h3 class="person">Test<span class="val-total val-positive" id="click">$400</span></h3>
-        <div class="options btn-group">
-            <a class="btn btn-default"><i class="fa fa-dollar fa-fw"></i>Details</a>
-            <a class="btn btn-default"><i class="fa fa-edit fa-fw"></i>Edit</a>
-            <a class="btn btn-default"><i class="fa fa-trash fa-fw"></i>Delete</a>
+    <!--iterate over users-->
+    <!--for row in rows-->{{for key, value in users.iteritems():}}
+    <h3 class="person">{{=value}}<span class="val-total val-positive" id="click">{{=value}}</span></h3>
+        <div>
+            <a href="" class="btn btn-default"><i class="fa fa-dollar fa-fw"></i>Details</a>
+            <a href="" class="btn btn-default"><i class="fa fa-edit fa-fw"></i>Edit</a>
+            <a href="" class="btn btn-default"><i class="fa fa-trash fa-fw"></i>Delete</a>
         </div>
+    {{pass}}
 </div>
