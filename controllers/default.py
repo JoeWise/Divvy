@@ -41,7 +41,7 @@ def process_transaction():
 
     #for each user, create a new payment record in the payment table
     for row in db(db.auth_user).select():
-        if (row.email != auth.user.email and request.post_vars["owes_"+str(row.id)] != 0):
+        if (row.email != auth.user.email and int(request.post_vars["owes_"+str(row.id)]) != 0):
             print(request.post_vars["owes_"+ str(row.id)])
             db.payment.insert(transaction_n=transactionid, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
     return redirect(URL('details_transaction/'+str(transactionid)))
