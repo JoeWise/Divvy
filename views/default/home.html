@@ -56,8 +56,17 @@
 </h2>
 
 <div id="accordion">
+    {{ owed_to_you = 0.0 }}
     {{ for row in trans_rows: }}
-    <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}0</span></h3>
+    {{ transaction_total = 0.0 }}
+    {{ payers_in_t = db(db.payment.transaction_n == row.id).select() }}
+    {{ for payer in payers_in_t: }}
+        {{ if payer.state == 'null': }}
+            {{ transaction_total = transaction_total + payer.amount }}
+        {{ pass }}
+    {{ pass }}
+    {{ owed_to_you = owed_to_you + transaction_total }}
+    <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=transaction_total}}0</span></h3>
         <div>
             {{=A(I(_class='fa fa-dollar fw'),' Details', _class='btn btn-default', _href=URL('details_transaction', args=row.id))}}
             {{=A(I(_class='fa fa-edit fw'),' Edit', _class='btn btn-default', _href=URL('edit_transaction', args=row.id))}}
@@ -77,7 +86,12 @@
 {{=A(I(_class='fa fa-plus-square'),' New Transaction', _class='btn', _href=URL('new_transaction'))}}
 
 {{block right_sidebar}}
+<div align="center">
+{{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
 <h4>
-    Current Debt: ${{=total_debt}}
+    Current Balance</br>
+    <font color="#09e959">+${{=owed_to_you}}</font></br>
+    <font color="#FB8181">-${{=total_debt}}</font>
+    </div>
 </h4>
 {{end}}
