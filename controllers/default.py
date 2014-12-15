@@ -14,7 +14,15 @@ def index():
 
 @auth.requires_login()
 def home():
-    return dict(message=T('Name'))
+    queries=[]
+    query = db.transaction_table.id == -1
+    payment_rows = db(auth.user.id == db.payment.payer).select(orderby=~db.payment.transaction_n)
+    for row in payment_rows:
+        queries.append(db.transaction_table.id == row.transaction_n)
+    query = reduce(lambda a,b:(a|b),queries)
+    t_payer_rows = db(query).select(orderby=~db.transaction_table.id)
+    transaction_rows = db(auth.user.id == db.transaction_table.author).select(orderby=~db.transaction_table.id)
+    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows)
 
 @auth.requires_login()
 def new_transaction():
