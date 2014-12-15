@@ -73,5 +73,8 @@
 </div>
 
 {{block right_sidebar}}
+<h4>
+    Current Debt: ${{=total_debt}}
+</h4>
 {{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
 {{end}}

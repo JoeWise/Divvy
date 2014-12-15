@@ -17,16 +17,18 @@ def home():
     queries=[]
     query = db.transaction_table.id == -1
     payment_rows = db(auth.user.id == db.payment.payer).select(orderby=~db.payment.transaction_n)
+    total_debt = 0.0
     if payment_rows != None:
         reduce_it = False
         for row in payment_rows:
             queries.append(db.transaction_table.id == row.transaction_n)
             reduce_it = True
+            total_debt = total_debt + row.amount
         if reduce_it:
             query = reduce(lambda a,b:(a|b),queries)
     t_payer_rows = db(query).select(orderby=~db.transaction_table.id)
     transaction_rows = db(auth.user.id == db.transaction_table.author).select(orderby=~db.transaction_table.id)
-    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows)
+    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows, total_debt=total_debt)
 
 @auth.requires_login()
 def new_transaction():
