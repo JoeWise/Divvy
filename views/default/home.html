@@ -1,3 +1,4 @@
+{{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -53,7 +54,7 @@
 <h2>
     Transaction Summary
 </h2>
-{{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
+
 <div id="accordion">
     {{ for row in trans_rows: }}
     <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}0</span></h3>
@@ -70,3 +71,7 @@
         </div>
     {{ pass }}
 </div>
+
+{{block right_sidebar}}
+{{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
+{{end}}
