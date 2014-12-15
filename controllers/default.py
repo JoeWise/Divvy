@@ -76,6 +76,39 @@ def delete_t_confirm():
         db(db.payment.id == row.id).delete()
     return redirect(URL('home'))
 
+@auth.requires_login()
+def edit_transaction():
+    users = {}
+    # Get requested transaction
+    this_transaction = db.transaction_table(request.args(0,cast=int)) or redirect(URL('home'))
+    # Get user's full name
+    for row in db(db.auth_user).select():
+        if row.email != auth.user.email:
+            users[row.id]=row.first_name + ' ' + row.last_name
+    return dict(users=users, trans=this_transaction)
+
+@auth.requires_login()
+def edit_confirm():
+    #############
+    TRANS_ID = 8
+    #############
+    userid = auth.user.id
+    # Edit transaction record
+    db.transaction_table[TRANS_ID] = dict(title=request.post_vars["item"])
+    db.transaction_table[TRANS_ID] = dict(total=request.post_vars["total"])
+
+    # For each user, check value, and modify/create payment entry
+    for row in db(db.auth_user).select():
+        if (row.email != auth.user.email and request.post_vars["owes_"+str(row.id)] != 0.0):
+            payment_row = db((TRANS_ID == db.payment.transaction_n)&(row.id == db.payment.payer)).select().first()
+            if payment_row != None:
+                amount_val = request.post_vars['owes_'+str(row.id)]
+                db.payment[payment_row.id] = dict(amount=request.post_vars['owes_'+str(row.id)])
+                db.payment[payment_row.id] = dict(state='null')
+            else:
+                db.payment.insert(transaction_n=TRANS_ID, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
+    return redirect(URL('home'))
+
 def user():
     """
     exposes:

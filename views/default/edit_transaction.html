@@ -1,0 +1,33 @@
+{{extend 'layout.html'}}
+
+<h1>Edit Transaction</h1>
+<div class="well">
+
+<table>
+    <form id="newitemform" action="/Divvy/default/edit_confirm" method="post">
+        <label class="description" for="item">You bought </label>
+		<div>
+			<input id="item" name="item" class="element text medium" type="text"  value="{{ =trans.title }}"/> 
+		</div>
+
+        <label class="description" for="total">Which cost </label>
+		<div>
+			<input id="total" name="total" class="element text medium" type="price"  value="{{ =trans.total }}"/> 
+		</div>
+         {{for key, value in users.iteritems():}}
+        <label class="description" for="owes_{{=key}}">{{=value}} owes you</label>
+		<div>
+            {{ def_val = 0.0 }}
+            {{ payment_row = db((trans.id == db.payment.transaction_n)&(key == db.payment.payer)).select().first() }}
+            {{ if payment_row != None: }}
+                {{ def_val = payment_row.amount }}
+            {{ pass }}
+			<input id="owes_{{=key}}" name="owes_{{=key}}" class="element text medium" type="price"  value="{{ =def_val }}"/> 
+		</div>
+         {{pass}}
+        </br>
+        If you confirm, note that any payments previously marked as paid in this transaction will be reset to unpaid.
+        <tr><td colspan="4"><input type="submit" value="Confirm" id="additem"/>{{=A('Back to Transaction Details', _class='btn', _href=URL('details_transaction', args=trans.id))}}{{=A('Back to Home', _class='btn', _href=URL('home'))}}</td></tr>
+</form>
+</table>
+</div>
