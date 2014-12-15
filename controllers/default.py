@@ -28,7 +28,7 @@ def home():
             query = reduce(lambda a,b:(a|b),queries)
     t_payer_rows = db(query).select(orderby=~db.transaction_table.id)
     transaction_rows = db(auth.user.id == db.transaction_table.author).select(orderby=~db.transaction_table.id)
-    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows, total_debt=total_debt)
+    return dict(message=T('test!!'), trans_rows=transaction_rows, pay_rows=t_payer_rows, total_debt=total_debt, payer_rows=payment_rows)
 
 @auth.requires_login()
 def new_transaction():
