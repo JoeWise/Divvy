@@ -48,12 +48,12 @@
         color: #111;
         text-decoration: none;
     }
-    
+
 </style>
 <h2>
     Transaction Summary
 </h2>
-
+{{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
 <div id="accordion">
     {{ for row in trans_rows: }}
     <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}0</span></h3>
