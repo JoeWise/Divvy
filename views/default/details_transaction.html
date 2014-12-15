@@ -84,7 +84,7 @@
         {{ pass }}
         ${{ =row.amount }}</span> 
                     {{ if (is_payer == False) & (row.state == "null"): }}
-                    {{=A('Mark as Paid', _class='btn', _href=URL('mark_as_paid', args=row.id))}}
+                    {{=A('Mark as Paid', _class='btn', _href=URL('mark_as_paid', args=[row.id, trans.id]))}}
                     {{ pass }}</h3>
     <h3></h3>
     {{ remaining = remaining - row.amount }}

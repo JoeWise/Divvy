@@ -57,7 +57,8 @@ def details_transaction():
 @auth.requires_login()
 def mark_as_paid():
     db.payment[request.args(0,cast=int)] = dict(state="paid")
-    return redirect(URL('home'))
+    #return redirect(URL('home'))
+    return redirect(URL('details_transaction/'+request.args(1,cast=str)))
 
 @auth.requires_login()
 def delete_transaction():
