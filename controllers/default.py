@@ -102,14 +102,17 @@ def edit_confirm():
 
     # For each user, check value, and modify/create payment entry
     for row in db(db.auth_user).select():
+        payment_row = db((TRANS_ID == db.payment.transaction_n)&(row.id == db.payment.payer)).select().first()
         if (row.email != auth.user.email and float(request.post_vars["owes_"+str(row.id)]) != float(0.0)):
-            payment_row = db((TRANS_ID == db.payment.transaction_n)&(row.id == db.payment.payer)).select().first()
             if payment_row != None:
                 amount_val = request.post_vars['owes_'+str(row.id)]
                 db.payment[payment_row.id] = dict(amount=request.post_vars['owes_'+str(row.id)])
                 db.payment[payment_row.id] = dict(state='null')
             else:
                 db.payment.insert(transaction_n=TRANS_ID, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
+        else:
+            if payment_row != None:
+                db(db.payment.id == payment_row.id).delete()
     return redirect(URL('details_transaction/'+str(TRANS_ID)))
 
 def user():
