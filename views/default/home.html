@@ -78,8 +78,6 @@
     <h3 class="person">{{=row.title}}<span class="val-total val-negative" id="click">${{=payment_in_t.amount}}0</span></h3>
         <div>
             {{=A(I(_class='fa fa-dollar fw'),' Details', _class='btn btn-default', _href=URL('details_transaction', args=row.id))}}
-            {{=A(I(_class='fa fa-edit fw'),' Edit', _class='btn btn-default', _href=URL('edit_transaction', args=row.id))}}
-            {{=A(I(_class='fa fa-trash fw'),' Delete', _class='btn btn-danger', _href=URL('delete_transaction', args=row.id))}}
         </div>
     {{ pass }}
 </div>
