@@ -51,23 +51,24 @@
     
 </style>
 <h2>
-    House {{message}}
+    Transaction Summary
 </h2>
+
 <div id="accordion">
     {{ for row in trans_rows: }}
-    <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}</span></h3>
-        <div class="options btn-group">
-            <a class="btn btn-default"><i class="fa fa-dollar fa-fw"></i>Details</a>
-            <a class="btn btn-default"><i class="fa fa-edit fa-fw"></i>Edit</a>
-            <a class="btn btn-default"><i class="fa fa-trash fa-fw"></i>Delete</a>
+    <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}0</span></h3>
+        <div>
+            {{=A('Details', _class='btn btn-default', _href=URL('details_transaction', args=row.id))}}
+            {{=A('Edit', _class='btn btn-default', _href=URL('edit_transaction', args=row.id))}}
+            {{=A('Delete', _class='btn btn-danger', _href=URL('delete_transaction', args=row.id))}}
         </div>
     {{ pass }}
     {{ for row in pay_rows: }}
-    <h3 class="person">{{=row.title}}<span class="val-total val-positive" id="click">${{=row.total}}</span></h3>
-        <div class="options btn-group">
-            <a class="btn btn-default"><i class="fa fa-dollar fa-fw"></i>Details</a>
-            <a class="btn btn-default"><i class="fa fa-edit fa-fw"></i>Edit</a>
-            <a class="btn btn-default"><i class="fa fa-trash fa-fw"></i>Delete</a>
+    <h3 class="person">{{=row.title}}<span class="val-total val-negative" id="click">${{=row.total}}0</span></h3>
+        <div>
+            {{=A('Details', _class='btn btn-default', _href=URL('details_transaction', args=row.id))}}
+            {{=A('Edit', _class='btn btn-default', _href=URL('edit_transaction', args=row.id))}}
+            {{=A('Delete', _class='btn btn-danger', _href=URL('delete_transaction', args=row.id))}}
         </div>
     {{ pass }}
 </div>
