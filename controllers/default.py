@@ -14,7 +14,7 @@ def index():
 
 @auth.requires_login()
 def home():
-    return dict(message=T('test!!'))
+    return dict(message=T('Name'))
 
 @auth.requires_login()
 def new_transaction():
