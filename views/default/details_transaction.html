@@ -98,8 +98,6 @@
 {{ pass }}
 </br>
 <h3>Options</h3>
-{{ if show_pay_button: }}
-{{=A('Pay your Share', _class='btn', _href=URL('pay_transaction', args=id_payment))}}{{ pass }}
 {{ if is_payer == False: }}
 {{=A('Edit', _class='btn', _href=URL('edit_transaction', args=trans.id))}}
 {{=A('Delete', _class='btn', _href=URL('delete_transaction', args=trans.id))}}
