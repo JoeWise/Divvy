@@ -74,11 +74,10 @@
         </div>
     {{ pass }}
 </div>
+{{=A(I(_class='fa fa-plus-square'),' New Transaction', _class='btn', _href=URL('new_transaction'))}}
 
 {{block right_sidebar}}
 <h4>
     Current Debt: ${{=total_debt}}
 </h4>
-{{=A('+ New Transaction', _class='btn', _href=URL('new_transaction'))}}
 {{end}}
-{{=A(I(_class='fa fa-plus-square'),' New Transaction', _class='btn', _href=URL('new_transaction'))}}
