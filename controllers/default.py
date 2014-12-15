@@ -106,7 +106,7 @@ def edit_confirm():
                 db.payment[payment_row.id] = dict(state='null')
             else:
                 db.payment.insert(transaction_n=TRANS_ID, payer=row.id, amount=request.post_vars['owes_'+str(row.id)], receiver=userid, state='null')
-    return redirect(URL('home'))
+    return redirect(URL('details_transaction/'+str(TRANS_ID)))
 
 def user():
     """
